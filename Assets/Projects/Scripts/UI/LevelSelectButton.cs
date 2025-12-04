@@ -1,8 +1,10 @@
-using System.Linq;
 using Projects.Scripts.Configs;
+using Projects.Scripts.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // Projects.Scripts.UI名前空間を定義
 namespace Projects.Scripts.UI
@@ -48,14 +50,7 @@ namespace Projects.Scripts.UI
             // レベルに対応するレベル設定を取得
             // _levelConfigにlevelsTableConfigのLevelsからlevelと一致する最初の要素を代入
             // = は代入演算子
-            _levelConfig = levelsTableConfig.Levels.First(l => l.level == level);
-
-            // レベル設定が見つからなかった場合はエラーを出力
-            // DebugクラスのAssertという静的メソッドを使用
-            // 第一引数に条件式、第二引数にエラーメッセージを指定
-            // _levelConfig != nullはレベル設定がnullでないことを確認する条件式
-            // $"{level} レベルの {nameof(LevelConfig)} が見つかりません。"はエラーメッセージ
-            Debug.Assert(_levelConfig != null, $"{level} レベルの {nameof(LevelConfig)} が見つかりません。");
+            _levelConfig = levelsTableConfig.GetLevelConfig(level);
 
             // var は型推論を使用して変数を宣言するキーワード
             // この場合TMP_Text型のtext変数を宣言
@@ -63,7 +58,7 @@ namespace Projects.Scripts.UI
             // ボタンのテキストをレベルに設定
             var text = GetComponentInChildren<TMP_Text>();
 
-            // textのtextプロパティに "Level {level}"という文字列を設定
+            // textのtextプロパティに Level {level}という文字列を設定
             text.text = $"Level {level}";
 
             // レベル選択メモにレベル設定をセットし、非表示にする
@@ -71,6 +66,17 @@ namespace Projects.Scripts.UI
             levelSelectMemo.SetMemo(_levelConfig);
             // levelSelectMemoのgameObjectプロパティのSetActiveメソッドを呼び出し、falseを引数として渡す
             levelSelectMemo.gameObject.SetActive(false);
+
+            // ボタンがクリックされたときの処理を設定
+            // Buttonコンポーネントを取得し、button変数に代入
+            TryGetComponent(out Button button);
+            // buttonのonClickプロパティのAddListenerメソッドを呼び出し、ラムダ式を引数として渡す
+            // ラムダ式内でApplicationManagerのSelectedLevelプロパティにlevelを設定
+            button.onClick.AddListener(() =>
+            {
+                ApplicationManager.Instance.SelectedLevel = level;
+                SceneManager.LoadScene("GameScene");
+            });
         }
 
         // public は他のクラスからもアクセス可能にする修飾子

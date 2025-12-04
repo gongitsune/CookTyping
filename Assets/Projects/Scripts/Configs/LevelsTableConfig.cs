@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Projects.Scripts.Configs
@@ -12,7 +11,15 @@ namespace Projects.Scripts.Configs
     {
         [SerializeField] private LevelConfig[] levels;
 
-        public IList<LevelConfig> Levels => levels;
+        public LevelConfig GetLevelConfig(int level)
+        {
+            foreach (var levelConfig in levels)
+                if (levelConfig.level == level)
+                    return levelConfig;
+
+            Debug.LogError($"{level} レベルの {nameof(LevelConfig)} が見つかりません。");
+            return null;
+        }
     }
 
     [Serializable]
@@ -20,5 +27,13 @@ namespace Projects.Scripts.Configs
     {
         public string name;
         public int level;
+        public TypingSentence[] sentences;
+    }
+
+    [Serializable]
+    public class TypingSentence
+    {
+        public string japanese;
+        public string romaji;
     }
 }

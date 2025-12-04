@@ -15,7 +15,20 @@ MonoBehaviour:
   levels:
   - name: "\u6851\u90FD\u713C"
     level: 1
+    sentences:
+    - japanese: "\u6851\u3092\u3064\u3076\u3059"
+      romaji: kuwawotubusu
+    - japanese: "\u8449\u306E\u7C89\u3092\u5165\u308C\u308B"
+      romaji: hanokonawoireru
+    - japanese: "\u751F\u5730\u3092\u4F5C\u308B"
+      romaji: kijiwotukuru
+    - japanese: "\u751F\u5730\u3067\u3042\u3093\u3092\u3064\u3064\u3080"
+      romaji: kijideannwotutumu
+    - japanese: "\u713C\u304F"
+      romaji: yaku
   - name: "\u30D1\u30F3\u30AB\u30C4"
     level: 2
+    sentences: []
   - name: "\u516B\u738B\u5B50\u30E9\u30FC\u30E1\u30F3"
     level: 3
+    sentences: []
