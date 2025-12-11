@@ -59,14 +59,7 @@ namespace Projects.Scripts.UI
                 .AddTo(this);
 
             // スコアリストを構築
-            var scores = ScoreManager.LoadScores();
-            if (scores.Any())
-                Array.Sort(scores, (a, b) => b.score.CompareTo(a.score)); // スコアの降順でソート
-            foreach (var scoreData in scores)
-            {
-                var item = Instantiate(scoreListItemPrefab, scoreListContent);
-                item.text = $"{scoreData.name}: {scoreData.score}";
-            }
+            BuildScoreList();
 
             // スコア保存ボタンのクリックイベント
             saveScoreButton.onClick.AddListener(OnScoreSaveButtonClicked);
@@ -77,6 +70,22 @@ namespace Projects.Scripts.UI
             // ボタンのクリックイベントを解除
             returnButton.onClick.RemoveListener(OnReturnButtonClicked);
             saveScoreButton.onClick.RemoveListener(OnScoreSaveButtonClicked);
+        }
+
+        private void BuildScoreList()
+        {
+            // 既存のリストをクリア
+            foreach (Transform child in scoreListContent) Destroy(child.gameObject);
+
+            // スコアをロードして表示
+            var scores = ScoreManager.LoadScores();
+            if (scores.Any())
+                Array.Sort(scores, (a, b) => b.score.CompareTo(a.score)); // スコアの降順でソート
+            foreach (var (scoreData, i) in scores.Select((data, i) => (data, i)))
+            {
+                var item = Instantiate(scoreListItemPrefab, scoreListContent);
+                item.text = $"{i + 1}. {scoreData.name}: {scoreData.score}";
+            }
         }
 
         private void OnScoreSaveButtonClicked()
@@ -91,8 +100,7 @@ namespace Projects.Scripts.UI
             ScoreManager.SaveScore(playerName, _score);
 
             // スコアリストを更新
-            var item = Instantiate(scoreListItemPrefab, scoreListContent);
-            item.text = $"{playerName}: {_score}";
+            BuildScoreList();
         }
 
         private static void OnReturnButtonClicked()
