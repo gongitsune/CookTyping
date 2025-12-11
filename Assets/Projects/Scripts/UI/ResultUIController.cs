@@ -1,5 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using LitMotion;
+using Projects.Scripts.Configs;
 using Projects.Scripts.Utils;
 using TMPro;
 using UnityEngine;
@@ -11,6 +13,9 @@ namespace Projects.Scripts.UI
     {
         [SerializeField] private TMP_Text timeText, wrongCountText, typesPerSecondText, scoreText;
         [SerializeField] private Button returnButton;
+        [SerializeField] private Image thumbnailImage, animatedImage;
+        [SerializeField] private TMP_Text foodNameText;
+        [SerializeField] private LevelsTableConfig levelsTableConfig;
 
         private ApplicationManager _applicationManager;
 
@@ -30,6 +35,19 @@ namespace Projects.Scripts.UI
 
             // ボタンのクリックイベントを設定
             returnButton.onClick.AddListener(OnReturnButtonClicked);
+
+            // ゲットした食材のサムネイルを表示
+            var levelConfig = levelsTableConfig.GetLevelConfig(_applicationManager.SelectedLevel);
+            Debug.Assert(levelConfig != null, "levelConfig != null");
+            thumbnailImage.sprite = levelConfig.thumbnail;
+            animatedImage.sprite = levelConfig.thumbnail;
+            foodNameText.text = $"{levelConfig.name} をゲットした！";
+
+            // 食材のアニメーション (拡大したり縮んだり)
+            LMotion.Create(0.95f, 1.05f, 1f)
+                .WithLoops(-1, LoopType.Flip)
+                .Bind(scale => thumbnailImage.rectTransform.localScale = new Vector3(scale, scale, 1))
+                .AddTo(this);
         }
 
         private void OnDestroy()
