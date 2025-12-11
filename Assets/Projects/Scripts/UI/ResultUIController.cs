@@ -1,13 +1,16 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Projects.Scripts.Utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Projects.Scripts.UI
 {
     public class ResultUIController : MonoBehaviour
     {
         [SerializeField] private TMP_Text timeText, wrongCountText, typesPerSecondText, scoreText;
+        [SerializeField] private Button returnButton;
 
         private ApplicationManager _applicationManager;
 
@@ -24,6 +27,20 @@ namespace Projects.Scripts.UI
             // 簡単なスコア計算例
             var score = (int)(tps * 100 - result.WrongCount * 50);
             scoreText.text = $"{Math.Max(score, 0)}";
+
+            // ボタンのクリックイベントを設定
+            returnButton.onClick.AddListener(OnReturnButtonClicked);
+        }
+
+        private void OnDestroy()
+        {
+            // ボタンのクリックイベントを解除
+            returnButton.onClick.RemoveListener(OnReturnButtonClicked);
+        }
+
+        private static void OnReturnButtonClicked()
+        {
+            SceneTransitionManager.Instance.LoadScene("TitleScene").Forget();
         }
     }
 
