@@ -28,6 +28,7 @@ namespace Projects.Scripts.Configs
         public string name;
         public int level;
         public TypingSentence[] sentences;
+        public Sprite thumbnail;
     }
 
     [Serializable]

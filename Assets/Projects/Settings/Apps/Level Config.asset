@@ -26,9 +26,12 @@ MonoBehaviour:
       romaji: kijideannwotutumu
     - japanese: "\u713C\u304F"
       romaji: yaku
+    thumbnail: {fileID: 21300000, guid: c0540864dabf745c2b962c93d2c1f2ce, type: 3}
   - name: "\u30D1\u30F3\u30AB\u30C4"
     level: 2
     sentences: []
+    thumbnail: {fileID: 0}
   - name: "\u516B\u738B\u5B50\u30E9\u30FC\u30E1\u30F3"
     level: 3
     sentences: []
+    thumbnail: {fileID: 0}
