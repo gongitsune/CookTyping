@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using LitMotion;
 using Projects.Scripts.Configs;
@@ -17,7 +18,15 @@ namespace Projects.Scripts.UI
         [SerializeField] private TMP_Text foodNameText;
         [SerializeField] private LevelsTableConfig levelsTableConfig;
 
+        [Space] [Header("Score List")] [SerializeField]
+        private TMP_Text scoreListItemPrefab;
+
+        [SerializeField] private RectTransform scoreListContent;
+        [SerializeField] private TMP_InputField nameInputField;
+        [SerializeField] private Button saveScoreButton;
+
         private ApplicationManager _applicationManager;
+        private int _score;
 
         private void Start()
         {
@@ -30,8 +39,8 @@ namespace Projects.Scripts.UI
             typesPerSecondText.text = $"{tps:F2}";
 
             // 簡単なスコア計算例
-            var score = (int)(tps * 100 - result.WrongCount * 50);
-            scoreText.text = $"{Math.Max(score, 0)}";
+            _score = (int)(tps * 100 - result.WrongCount * 50);
+            scoreText.text = $"{Math.Max(_score, 0)}";
 
             // ボタンのクリックイベントを設定
             returnButton.onClick.AddListener(OnReturnButtonClicked);
@@ -48,12 +57,42 @@ namespace Projects.Scripts.UI
                 .WithLoops(-1, LoopType.Flip)
                 .Bind(scale => thumbnailImage.rectTransform.localScale = new Vector3(scale, scale, 1))
                 .AddTo(this);
+
+            // スコアリストを構築
+            var scores = ScoreManager.LoadScores();
+            if (scores.Any())
+                Array.Sort(scores, (a, b) => b.score.CompareTo(a.score)); // スコアの降順でソート
+            foreach (var scoreData in scores)
+            {
+                var item = Instantiate(scoreListItemPrefab, scoreListContent);
+                item.text = $"{scoreData.name}: {scoreData.score}";
+            }
+
+            // スコア保存ボタンのクリックイベント
+            saveScoreButton.onClick.AddListener(OnScoreSaveButtonClicked);
         }
 
         private void OnDestroy()
         {
             // ボタンのクリックイベントを解除
             returnButton.onClick.RemoveListener(OnReturnButtonClicked);
+            saveScoreButton.onClick.RemoveListener(OnScoreSaveButtonClicked);
+        }
+
+        private void OnScoreSaveButtonClicked()
+        {
+            var playerName = nameInputField.text;
+            if (string.IsNullOrWhiteSpace(playerName))
+            {
+                Debug.LogWarning("Player name is empty. Score not saved.");
+                return;
+            }
+
+            ScoreManager.SaveScore(playerName, _score);
+
+            // スコアリストを更新
+            var item = Instantiate(scoreListItemPrefab, scoreListContent);
+            item.text = $"{playerName}: {_score}";
         }
 
         private static void OnReturnButtonClicked()
