@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Projects.Scripts.Sound;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ namespace Projects.Scripts.UI
         // private は他のクラスからアクセスできない修飾子
         // Button型のstartButtonという名前のフィールドを定義
         [SerializeField] private Button startButton;
+        private SoundManager _soundManager;
 
         // private は他のクラスからアクセスできない修飾子
         // SceneTransitionManager型の_transitionManagerという名前のフィールドを定義
@@ -26,9 +28,12 @@ namespace Projects.Scripts.UI
         {
             // SceneTransitionManagerのインスタンスを取得して_transitionManagerに代入
             _transitionManager = SceneTransitionManager.Instance;
+            _soundManager = SoundManager.Instance;
 
             // startButtonがクリックされたときにOnClickStartButtonメソッドを呼び出すリスナーを追加
             startButton.onClick.AddListener(OnClickStartButton);
+
+            _soundManager.PlayBgm(_soundManager.Config.titleBgmClip);
         }
 
         // private は他のクラスからアクセスできない修飾子
@@ -38,6 +43,7 @@ namespace Projects.Scripts.UI
         {
             // シーン遷移マネージャーを使用してLevelSelectSceneに遷移する非同期処理を開始
             _transitionManager.LoadScene("LevelSelectScene").Forget();
+            _soundManager.PlaySe(_soundManager.Config.buttonClickSeClip);
         }
     }
 }

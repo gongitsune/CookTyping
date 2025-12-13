@@ -13,6 +13,8 @@ namespace Projects.Scripts.Sound
         private AudioMixerGroup _masterMixerGroup; // マスターミキサー
         private SePlayer _sePlayer; // 効果音の再生を管理するクラス
 
+        public AudioGlobalConfig Config => config;
+
         public float BgmVolume
         {
             get => _bgmPlayer.Volume;
@@ -70,6 +72,8 @@ namespace Projects.Scripts.Sound
             _masterMixerGroup = config.mixerSetting.masterMixerGroup;
             _bgmPlayer = new BgmPlayer(bgmSources, config, transform.GetCancellationTokenOnDestroy());
             _sePlayer = new SePlayer(seSource, config);
+
+            DontDestroyOnLoad(gameObject);
         }
 
         /// <summary>
