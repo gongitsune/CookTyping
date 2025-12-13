@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Projects.Scripts.Typing
 {
@@ -13,6 +14,7 @@ namespace Projects.Scripts.Typing
     {
         [SerializeField] private LevelsTableConfig levelsTableConfig;
         [SerializeField] private TMP_Text romajiText, japaneseText;
+        [SerializeField] private Image nextOpImage, currentOpImage, completedOpImage;
 
         private readonly HashSet<char> _ignoreChars = new() { ' ', '\n', '\r', '\b' };
         private ApplicationManager _applicationManager;
@@ -84,6 +86,12 @@ namespace Projects.Scripts.Typing
             japaneseText.text = sentence.japanese;
             // 入力中の文字列を初期化
             _typingText = "";
+            // 画像の更新
+            var sentences = _levelConfig.sentences;
+            completedOpImage.sprite = currentOpImage.sprite;
+            currentOpImage.sprite = sentence.image;
+            if (sentences.Length > _sentenceIndex + 1)
+                nextOpImage.sprite = _levelConfig.sentences[_sentenceIndex + 1].image;
         }
 
         private void OnEndOfGame()

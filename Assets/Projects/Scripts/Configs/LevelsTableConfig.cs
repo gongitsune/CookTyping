@@ -36,5 +36,6 @@ namespace Projects.Scripts.Configs
     {
         public string japanese;
         public string romaji;
+        public Sprite image;
     }
 }

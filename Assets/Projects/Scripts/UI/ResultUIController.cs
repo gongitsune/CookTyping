@@ -42,7 +42,7 @@ namespace Projects.Scripts.UI
             typesPerSecondText.text = $"{tps:F2}";
 
             // 簡単なスコア計算例
-            _score = (int)(tps * 100 - result.WrongCount * 50);
+            _score = (int)(tps * 100 - result.WrongCount * 20);
             scoreText.text = $"{Math.Max(_score, 0)}";
 
             // ボタンのクリックイベントを設定
