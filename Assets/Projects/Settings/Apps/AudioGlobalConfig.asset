@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df75111b868d547009492dd6d6669f90, type: 3}
+  m_Name: AudioGlobalConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Projects.Scripts.Sound.AudioGlobalConfig
+  mixerSetting:
+    masterMixerGroup: {fileID: 24300002, guid: b2cf328be928d4362a36c5337ec721cc, type: 2}
+    bgmMixerGroup: {fileID: 1978846337847208039, guid: b2cf328be928d4362a36c5337ec721cc, type: 2}
+    seMixerGroup: {fileID: 2097102252850632045, guid: b2cf328be928d4362a36c5337ec721cc, type: 2}
+  fadeDuration: 2
+  garbageDuration: 120
+  titleBgmClip: {fileID: 8300000, guid: 94f8e7664f521814faa552287fb9b330, type: 3}
+  levelSelectBgmClip: {fileID: 8300000, guid: a25c6dc112ef0eb458ed9bbb478a5864, type: 3}
+  gameMainBgmClip: {fileID: 8300000, guid: f8bdb88b4a190624c8365c0da643225f, type: 3}
+  resultBgmClip: {fileID: 8300000, guid: 0b745f331ef8c704da31e10b1c066930, type: 3}
+  buttonClickSeClip: {fileID: 8300000, guid: bd0cb63fb962fa24c81eec0e103763c4, type: 3}
+  keyboardTypingSeClip: {fileID: 8300000, guid: eef8b27295dd24dc4a629f6cae0584f5, type: 3}
