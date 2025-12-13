@@ -3,6 +3,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using LitMotion;
 using Projects.Scripts.Configs;
+using Projects.Scripts.Sound;
 using Projects.Scripts.Utils;
 using TMPro;
 using UnityEngine;
@@ -27,10 +28,12 @@ namespace Projects.Scripts.UI
 
         private ApplicationManager _applicationManager;
         private int _score;
+        private SoundManager _soundManager;
 
         private void Start()
         {
             _applicationManager = ApplicationManager.Instance;
+            _soundManager = SoundManager.Instance;
             var result = _applicationManager.Result;
 
             timeText.text = $"{result.TimeTaken:F2}";
@@ -90,6 +93,8 @@ namespace Projects.Scripts.UI
 
         private void OnScoreSaveButtonClicked()
         {
+            _soundManager.PlaySe(_soundManager.Config.buttonClickSeClip);
+
             var playerName = nameInputField.text;
             if (string.IsNullOrWhiteSpace(playerName))
             {
@@ -103,8 +108,9 @@ namespace Projects.Scripts.UI
             BuildScoreList();
         }
 
-        private static void OnReturnButtonClicked()
+        private void OnReturnButtonClicked()
         {
+            _soundManager.PlaySe(_soundManager.Config.buttonClickSeClip);
             SceneTransitionManager.Instance.LoadScene("TitleScene").Forget();
         }
     }

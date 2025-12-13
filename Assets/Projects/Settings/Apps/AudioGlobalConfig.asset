@@ -16,7 +16,7 @@ MonoBehaviour:
     masterMixerGroup: {fileID: 24300002, guid: b2cf328be928d4362a36c5337ec721cc, type: 2}
     bgmMixerGroup: {fileID: 1978846337847208039, guid: b2cf328be928d4362a36c5337ec721cc, type: 2}
     seMixerGroup: {fileID: 2097102252850632045, guid: b2cf328be928d4362a36c5337ec721cc, type: 2}
-  fadeDuration: 2
+  fadeDuration: 1
   garbageDuration: 120
   titleBgmClip: {fileID: 8300000, guid: 94f8e7664f521814faa552287fb9b330, type: 3}
   levelSelectBgmClip: {fileID: 8300000, guid: a25c6dc112ef0eb458ed9bbb478a5864, type: 3}

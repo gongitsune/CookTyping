@@ -1,4 +1,5 @@
 using Projects.Scripts.Configs;
+using Projects.Scripts.Sound;
 using Projects.Scripts.Utils;
 using TMPro;
 using UnityEngine;
@@ -40,6 +41,7 @@ namespace Projects.Scripts.UI
         // LevelConfig型の_levelConfigという名前のフィールドを定義
         // Startメソッドで代入するlevelに従ったレベル設定
         private LevelConfig _levelConfig;
+        private SoundManager _soundManager;
 
         // private は他のクラスからアクセスできない修飾子
         // void は戻り値がないことを示すキーワード
@@ -51,6 +53,8 @@ namespace Projects.Scripts.UI
             // _levelConfigにlevelsTableConfigのLevelsからlevelと一致する最初の要素を代入
             // = は代入演算子
             _levelConfig = levelsTableConfig.GetLevelConfig(level);
+
+            _soundManager = SoundManager.Instance;
 
             // var は型推論を使用して変数を宣言するキーワード
             // この場合TMP_Text型のtext変数を宣言
@@ -76,6 +80,8 @@ namespace Projects.Scripts.UI
             {
                 ApplicationManager.Instance.SelectedLevel = level;
                 SceneManager.LoadScene("GameScene");
+
+                _soundManager.PlaySe(_soundManager.Config.buttonClickSeClip);
             });
         }
 

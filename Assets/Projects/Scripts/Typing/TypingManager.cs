@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Projects.Scripts.Configs;
+using Projects.Scripts.Sound;
 using Projects.Scripts.Utils;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Projects.Scripts.Typing
         private ApplicationManager _applicationManager;
         private LevelConfig _levelConfig;
         private int _sentenceIndex; // 現在の文のインデックス
+        private SoundManager _soundManager;
         private float _startTime;
         private int _typedCharacters;
         private string _typingText; // 入力中の文字列
@@ -26,6 +28,7 @@ namespace Projects.Scripts.Typing
         {
             _startTime = Time.time;
             _applicationManager = ApplicationManager.Instance;
+            _soundManager = SoundManager.Instance;
             _levelConfig = levelsTableConfig.GetLevelConfig(_applicationManager.SelectedLevel);
 
             Keyboard.current.onTextInput += OnTextInput;
@@ -42,6 +45,8 @@ namespace Projects.Scripts.Typing
         {
             // 無視する文字の場合は処理を行わない
             if (_ignoreChars.Contains(c)) return;
+
+            _soundManager.PlaySe(_soundManager.Config.keyboardTypingSeClip);
 
             var sentence = _levelConfig.sentences[_sentenceIndex];
             var romaji = sentence.romaji;
